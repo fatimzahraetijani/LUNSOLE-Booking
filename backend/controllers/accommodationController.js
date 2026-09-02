@@ -1,4 +1,54 @@
 const db = require('../config/db');
+const https = require('https');
+
+// Helper for HTTP requests (Google Places API New)
+const fetchGooglePlacesAccommodations = (searchQuery, apiKey) => {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify({
+      textQuery: searchQuery
+    });
+
+    const options = {
+      hostname: 'places.googleapis.com',
+      path: '/v1/places:searchText',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.location,places.rating,places.primaryType'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let responseData = '';
+      res.on('data', (chunk) => {
+        responseData += chunk;
+      });
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(responseData);
+          if (parsed.places) {
+            resolve(parsed.places);
+          } else {
+            resolve([]);
+          }
+        } catch (error) {
+          console.error('Error parsing Google API response:', error);
+          resolve([]); // Fail gracefully
+        }
+      });
+    });
+
+    req.on('error', (err) => {
+      console.error('Google API error:', err);
+      resolve([]); // Fail gracefully
+    });
+
+    req.write(data);
+    req.end();
+  });
+};
+
 
 // @desc    Get all accommodations with optional search & filter parameters
 // @route   GET /api/accommodations
@@ -31,7 +81,7 @@ const getAccommodations = async (req, res) => {
         MAX(r.capacity) AS max_capacity
         ${distanceSelect}
       FROM accommodations a
-      INNER JOIN rooms r ON a.id = r.accommodation_id
+      LEFT JOIN rooms r ON a.id = r.accommodation_id
     `;
     
     const whereClauses = [];
@@ -69,11 +119,96 @@ const getAccommodations = async (req, res) => {
       query += ' WHERE ' + whereClauses.join(' AND ');
     }
 
-    query += ' GROUP BY a.id';
+    query += ' GROUP BY a.id, a.name, a.description, a.type, a.country, a.city, a.address, a.latitude, a.longitude, a.stars, a.image_url';
     query += orderBy;
 
-    const [accommodations] = await db.query(query, queryParams);
-    res.json(accommodations);
+    const [localAccommodations] = await db.query(query, queryParams);
+    
+    let allAccommodations = localAccommodations.map(acc => ({ ...acc, source: 'local' }));
+
+    // Fetch Google Places API accommodations
+    const googleApiKey = process.env.GOOGLE_PLACES_API_KEY;
+    
+    // We trigger external search if city is provided, or if lat/lng is provided
+    if ((city || (userLat && userLng)) && googleApiKey) {
+      let searchQuery = 'accommodations';
+      if (city) {
+        searchQuery = `hotels and accommodations in ${city}`;
+      } else if (userLat && userLng) {
+        // If they only searched by distance/map, find near lat/lng (Note: textQuery handles lat/lng poorly unless formatted, but we'll try)
+        searchQuery = `hotels near ${userLat}, ${userLng}`;
+      }
+
+      const externalPlaces = await fetchGooglePlacesAccommodations(searchQuery, googleApiKey);
+      
+      const externalMapped = externalPlaces
+        .map((place) => {
+          let extType = 'hotel';
+          const primaryType = place.primaryType || '';
+          if (primaryType.includes('apartment')) extType = 'apartment';
+          else if (primaryType.includes('villa')) extType = 'villa';
+          else if (primaryType.includes('guest_house')) extType = 'guesthouse';
+          else if (primaryType.includes('hostel')) extType = 'hostel';
+
+          // Respect type filter
+          if (type && type !== 'all' && extType !== type) {
+            return null;
+          }
+
+          let lat = null;
+          let lng = null;
+          if (place.location) {
+            lat = place.location.latitude;
+            lng = place.location.longitude;
+          }
+
+          // Calculate basic distance if user provided lat/lng
+          let calcDist = null;
+          if (userLat && userLng && lat && lng) {
+            const uLat = parseFloat(userLat);
+            const uLng = parseFloat(userLng);
+            if (!isNaN(uLat) && !isNaN(uLng)) {
+              const R = 6371; // Radius of the earth in km
+              const dLat = (lat - uLat) * (Math.PI / 180);
+              const dLon = (lng - uLng) * (Math.PI / 180);
+              const a = 
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(uLat * (Math.PI / 180)) * Math.cos(lat * (Math.PI / 180)) * 
+                Math.sin(dLon / 2) * Math.sin(dLon / 2); 
+              const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+              calcDist = R * c; 
+            }
+          }
+
+          return {
+            id: `ext_${place.id}`,
+            name: place.displayName ? place.displayName.text : 'Unnamed Accommodation',
+            description: place.formattedAddress || 'A comfortable stay at this location.',
+            type: extType,
+            country: '', // Google Places formatted address usually includes country, parsing it is complex
+            city: city || '', // We assume city from search query
+            address: place.formattedAddress || '',
+            latitude: lat,
+            longitude: lng,
+            stars: place.rating || null, // Using Google rating as stars
+            image_url: null, // Placeholder handled by frontend
+            min_price: null,
+            max_capacity: null,
+            distance: calcDist,
+            source: 'google_places'
+          };
+        })
+        .filter(item => item !== null);
+
+      allAccommodations = [...allAccommodations, ...externalMapped];
+      
+      // Re-sort by distance if sorting was applied
+      if (orderBy) {
+        allAccommodations.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+      }
+    }
+
+    res.json(allAccommodations);
   } catch (error) {
     console.error('Error fetching accommodations:', error.message);
     res.status(500).json({ message: 'Server error fetching accommodations' });

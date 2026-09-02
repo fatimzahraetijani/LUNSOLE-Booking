@@ -5,12 +5,22 @@ import { Footer } from './Footer';
 import { AIAssistant } from './AIAssistant';
 
 export const Layout = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    // Scroll to top of page on route change
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    // Only scroll to top when there is no hash anchor
+    if (!hash) {
+      window.scrollTo(0, 0);
+    } else {
+      // Scroll to the anchor element after a brief render delay
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [pathname, hash]);
 
   return (
     <>

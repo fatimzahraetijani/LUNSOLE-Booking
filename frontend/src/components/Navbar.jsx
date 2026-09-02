@@ -47,9 +47,9 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <a href="#features" className="nav-link" onClick={() => setIsOpen(false)}>
+            <Link to="/#features" className="nav-link" onClick={() => setIsOpen(false)}>
               Services
-            </a>
+            </Link>
           </li>
           {user && (
             <li>
@@ -62,26 +62,17 @@ export const Navbar = () => {
               </NavLink>
             </li>
           )}
-          {user && user.role === 'admin' && (
-            <li>
-              <NavLink 
-                to="/admin" 
-                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-                onClick={() => setIsOpen(false)}
-              >
-                Admin Panel
-              </NavLink>
-            </li>
-          )}
 
           {/* Mobile Auth Links inside the menu */}
           <li className="nav-auth">
             {user ? (
               <>
-                <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent)', fontWeight: '600' }} onClick={() => setIsOpen(false)}>
-                  <User size={18} />
-                  <span>Hi, {user.first_name}</span>
-                </Link>
+                {user.role !== 'admin' && user.first_name !== 'Admin' && (
+                  <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent)', fontWeight: '600' }} onClick={() => setIsOpen(false)}>
+                    <User size={18} />
+                    <span>Hi, {user.first_name}</span>
+                  </Link>
+                )}
                 <button onClick={handleLogout} className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <LogOut size={16} /> Logout
                 </button>

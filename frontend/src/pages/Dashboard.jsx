@@ -161,6 +161,8 @@ export const Dashboard = () => {
                   badgeStyle = { ...badgeStyle, backgroundColor: 'rgba(46,125,50,0.1)', color: 'var(--success)' };
                 } else if (booking.status === 'pending') {
                   badgeStyle = { ...badgeStyle, backgroundColor: 'rgba(255,179,0,0.1)', color: '#ffb300' };
+                } else if (booking.status === 'completed') {
+                  badgeStyle = { ...badgeStyle, backgroundColor: 'rgba(21,101,192,0.1)', color: '#1565c0' };
                 } else {
                   badgeStyle = { ...badgeStyle, backgroundColor: 'rgba(198,40,40,0.1)', color: 'var(--error)' };
                 }

@@ -209,11 +209,11 @@ export const AccommodationDetails = () => {
   return (
     <div style={{ paddingBottom: '80px' }}>
       {/* Hero Header */}
-      <div 
-        style={{ 
-          height: '45vh', 
-          position: 'relative', 
-          background: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${accommodation.image_url}) center/cover no-repeat`
+      <div
+        style={{
+          height: '45vh',
+          position: 'relative',
+          background: `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${accommodation.image_url || 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80'}) center/cover no-repeat`
         }}
       >
         <div className="container" style={{ position: 'absolute', bottom: '32px', left: '50%', transform: 'translateX(-50%)', color: '#fff', width: '100%' }}>

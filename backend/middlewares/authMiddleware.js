@@ -11,6 +11,10 @@ const protect = async (req, res, next) => {
       // Get token from header
       token = req.headers.authorization.split(' ')[1];
 
+      if (!token || token === 'null' || token === 'undefined') {
+        return res.status(401).json({ message: 'Not authorized, token is missing or invalid' });
+      }
+
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -25,16 +29,14 @@ const protect = async (req, res, next) => {
       }
 
       req.user = rows[0];
-      next();
+      return next();
     } catch (error) {
       console.error('JWT Verification Error:', error.message);
       return res.status(401).json({ message: 'Not authorized, token failed' });
     }
   }
 
-  if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token provided' });
-  }
+  return res.status(401).json({ message: 'Not authorized, no token provided' });
 };
 
 // Restrict access to admin role only

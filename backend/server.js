@@ -18,6 +18,7 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const favoriteRoutes = require('./routes/favoriteRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const aiRoutes = require('./routes/aiRoutes');
+const locationRoutes = require('./routes/locationRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/accommodations', accommodationRoutes);
@@ -25,6 +26,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/locations', locationRoutes);
 
 // Root route
 app.get('/', (req, res) => {

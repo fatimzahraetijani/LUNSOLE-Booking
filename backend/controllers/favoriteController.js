@@ -62,9 +62,9 @@ const getFavorites = async (req, res) => {
         MAX(r.capacity) AS max_capacity
       FROM favorites f
       INNER JOIN accommodations a ON f.accommodation_id = a.id
-      INNER JOIN rooms r ON a.id = r.accommodation_id
+      LEFT JOIN rooms r ON a.id = r.accommodation_id
       WHERE f.user_id = ?
-      GROUP BY a.id
+      GROUP BY a.id, a.name, a.description, a.type, a.country, a.city, a.address, a.latitude, a.longitude, a.stars, a.image_url
     `;
 
     const [favorites] = await db.query(query, [userId]);

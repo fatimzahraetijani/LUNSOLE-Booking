@@ -90,7 +90,7 @@ const getAIRecommendations = async (req, res) => {
       sql += ' WHERE ' + whereClauses.join(' AND ');
     }
 
-    sql += ' GROUP BY a.id';
+    sql += ' GROUP BY a.id, a.name, a.description, a.type, a.country, a.city, a.address, a.latitude, a.longitude, a.stars, a.image_url';
 
     const [accommodations] = await db.query(sql, queryParams);
 
