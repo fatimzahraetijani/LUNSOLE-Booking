@@ -79,12 +79,12 @@ export const Register = () => {
                 <label htmlFor="first_name">First Name</label>
                 <div style={{ position: 'relative' }}>
                   <User size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                  <input 
-                    type="text" 
-                    id="first_name" 
-                    name="first_name" 
-                    placeholder="John" 
-                    className="form-control" 
+                  <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    placeholder="John"
+                    className="form-control"
                     style={{ paddingLeft: '38px' }}
                     value={formData.first_name}
                     onChange={handleChange}
@@ -97,12 +97,12 @@ export const Register = () => {
                 <label htmlFor="last_name">Last Name</label>
                 <div style={{ position: 'relative' }}>
                   <User size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                  <input 
-                    type="text" 
-                    id="last_name" 
-                    name="last_name" 
-                    placeholder="Doe" 
-                    className="form-control" 
+                  <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    placeholder="Doe"
+                    className="form-control"
                     style={{ paddingLeft: '38px' }}
                     value={formData.last_name}
                     onChange={handleChange}
@@ -116,12 +116,12 @@ export const Register = () => {
               <label htmlFor="email">Email Address</label>
               <div style={{ position: 'relative' }}>
                 <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  placeholder="name@example.com" 
-                  className="form-control" 
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="name@example.com"
+                  className="form-control"
                   style={{ paddingLeft: '38px' }}
                   value={formData.email}
                   onChange={handleChange}
@@ -134,12 +134,12 @@ export const Register = () => {
               <label htmlFor="password">Password</label>
               <div style={{ position: 'relative' }}>
                 <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="password" 
-                  id="password" 
-                  name="password" 
-                  placeholder="At least 6 characters" 
-                  className="form-control" 
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="At least 6 characters"
+                  className="form-control"
                   style={{ paddingLeft: '38px' }}
                   value={formData.password}
                   onChange={handleChange}
@@ -152,12 +152,12 @@ export const Register = () => {
               <label htmlFor="confirmPassword">Confirm Password</label>
               <div style={{ position: 'relative' }}>
                 <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="password" 
-                  id="confirmPassword" 
-                  name="confirmPassword" 
-                  placeholder="Confirm password" 
-                  className="form-control" 
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  className="form-control"
                   style={{ paddingLeft: '38px' }}
                   value={formData.confirmPassword}
                   onChange={handleChange}
@@ -166,9 +166,9 @@ export const Register = () => {
               </div>
             </div>
 
-            <button 
-              type="submit" 
-              className="btn btn-primary" 
+            <button
+              type="submit"
+              className="btn btn-primary"
               style={{ width: '100%', gap: '8px', height: '48px' }}
               disabled={loading}
             >

@@ -170,7 +170,7 @@ export const AccommodationDetails = () => {
       setReviewSuccess(true);
       setReviewComment('');
       setReviewRating(5);
-      
+
       // Refresh reviews list
       const refreshResponse = await fetch(`http://localhost:5000/api/accommodations/${id}/reviews`);
       if (refreshResponse.ok) {
@@ -250,7 +250,7 @@ export const AccommodationDetails = () => {
               <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
                 Your luxury stay in the <strong>{bookedDetails.roomName}</strong> has been secured successfully. Reference ID: #{bookedDetails.bookingId}.
               </p>
-              
+
               <div style={{ backgroundColor: 'var(--bg-main)', borderRadius: '8px', padding: '16px', marginBottom: '32px', textAlign: 'left', border: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
                   <span>Nights Count:</span>
@@ -279,7 +279,7 @@ export const AccommodationDetails = () => {
             </div>
 
             <h2 style={{ fontSize: '1.8rem', marginBottom: '24px' }}>Available Suites</h2>
-            
+
             {accommodation.rooms && accommodation.rooms.length === 0 ? (
               <p style={{ color: 'var(--text-muted)' }}>No suites currently listed for this accommodation.</p>
             ) : (
@@ -295,7 +295,7 @@ export const AccommodationDetails = () => {
                       <div>
                         <h3 style={{ fontSize: '1.4rem', marginBottom: '8px' }}>{room.name}</h3>
                         <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '12px' }}>{room.description}</p>
-                        
+
                         {/* Amenities */}
                         {room.amenities && Array.isArray(room.amenities) && (
                           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
@@ -328,9 +328,9 @@ export const AccommodationDetails = () => {
                             </div>
                           ) : null}
 
-                          <button 
-                            onClick={() => handleBookRoom(room)} 
-                            className="btn btn-primary" 
+                          <button
+                            onClick={() => handleBookRoom(room)}
+                            className="btn btn-primary"
                             disabled={bookingLoading}
                             style={{ gap: '6px' }}
                           >
@@ -353,13 +353,13 @@ export const AccommodationDetails = () => {
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div style={{ display: 'flex', gap: '2px' }}>
                       {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          size={14} 
-                          style={{ 
-                            fill: i < Math.round(parseFloat(avgRating)) ? '#ffb300' : 'none', 
-                            color: i < Math.round(parseFloat(avgRating)) ? '#ffb300' : '#e5e5e0' 
-                          }} 
+                        <Star
+                          key={i}
+                          size={14}
+                          style={{
+                            fill: i < Math.round(parseFloat(avgRating)) ? '#ffb300' : 'none',
+                            color: i < Math.round(parseFloat(avgRating)) ? '#ffb300' : '#e5e5e0'
+                          }}
                         />
                       ))}
                     </div>
@@ -371,7 +371,7 @@ export const AccommodationDetails = () => {
               {/* Submit Review Form */}
               <div style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '32px', marginBottom: '40px', boxShadow: 'var(--shadow-sm)' }}>
                 <h3 style={{ fontSize: '1.3rem', marginBottom: '16px', fontFamily: 'var(--font-serif)' }}>Share Your Experience</h3>
-                
+
                 {reviewSuccess && (
                   <div className="alert alert-success" style={{ marginBottom: '20px' }}>
                     Thank you! Your luxury review has been published.
@@ -396,13 +396,13 @@ export const AccommodationDetails = () => {
                             onClick={() => setReviewRating(star)}
                             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                           >
-                            <Star 
-                              size={28} 
-                              style={{ 
-                                fill: star <= reviewRating ? '#ffb300' : 'none', 
+                            <Star
+                              size={28}
+                              style={{
+                                fill: star <= reviewRating ? '#ffb300' : 'none',
                                 color: star <= reviewRating ? '#ffb300' : 'var(--border-color)',
                                 transition: 'var(--transition)'
-                              }} 
+                              }}
                             />
                           </button>
                         ))}
@@ -422,9 +422,9 @@ export const AccommodationDetails = () => {
                       />
                     </div>
 
-                    <button 
-                      type="submit" 
-                      className="btn btn-primary" 
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
                       disabled={reviewSubmitLoading}
                       style={{ padding: '10px 24px' }}
                     >
@@ -456,13 +456,13 @@ export const AccommodationDetails = () => {
                         </div>
                         <div style={{ display: 'flex', gap: '2px' }}>
                           {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              size={12} 
-                              style={{ 
-                                fill: i < rev.rating ? '#ffb300' : 'none', 
-                                color: i < rev.rating ? '#ffb300' : '#e5e5e0' 
-                              }} 
+                            <Star
+                              key={i}
+                              size={12}
+                              style={{
+                                fill: i < rev.rating ? '#ffb300' : 'none',
+                                color: i < rev.rating ? '#ffb300' : '#e5e5e0'
+                              }}
                             />
                           ))}
                         </div>
@@ -479,7 +479,7 @@ export const AccommodationDetails = () => {
           <div id="booking-config">
             <div style={{ position: 'sticky', top: '110px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '32px', boxShadow: 'var(--shadow-md)' }}>
               <h3 style={{ fontSize: '1.5rem', marginBottom: '24px', fontFamily: 'var(--font-serif)' }}>Select Dates</h3>
-              
+
               {bookingError && (
                 <div className="alert alert-error" style={{ fontSize: '0.85rem', marginBottom: '16px' }}>
                   {bookingError}
@@ -496,11 +496,11 @@ export const AccommodationDetails = () => {
                 <label htmlFor="checkIn">Check-In</label>
                 <div style={{ position: 'relative' }}>
                   <Calendar size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                  <input 
-                    type="date" 
-                    id="checkIn" 
-                    className="form-control" 
-                    style={{ paddingLeft: '36px' }} 
+                  <input
+                    type="date"
+                    id="checkIn"
+                    className="form-control"
+                    style={{ paddingLeft: '36px' }}
                     value={checkIn}
                     onChange={(e) => setCheckIn(e.target.value)}
                   />
@@ -511,11 +511,11 @@ export const AccommodationDetails = () => {
                 <label htmlFor="checkOut">Check-Out</label>
                 <div style={{ position: 'relative' }}>
                   <Calendar size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                  <input 
-                    type="date" 
-                    id="checkOut" 
-                    className="form-control" 
-                    style={{ paddingLeft: '36px' }} 
+                  <input
+                    type="date"
+                    id="checkOut"
+                    className="form-control"
+                    style={{ paddingLeft: '36px' }}
                     value={checkOut}
                     onChange={(e) => setCheckOut(e.target.value)}
                   />
@@ -526,9 +526,9 @@ export const AccommodationDetails = () => {
                 <label htmlFor="guestsCount">Guests Count</label>
                 <div style={{ position: 'relative' }}>
                   <Users size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                  <select 
-                    id="guestsCount" 
-                    className="form-control" 
+                  <select
+                    id="guestsCount"
+                    className="form-control"
                     style={{ paddingLeft: '36px' }}
                     value={guestsCount}
                     onChange={(e) => setGuestsCount(e.target.value)}
@@ -555,7 +555,7 @@ export const AccommodationDetails = () => {
           </div>
         </div>
       </div>
-      
+
       <style>{`
         @keyframes spin {
           to { transform: rotate(360deg); }
