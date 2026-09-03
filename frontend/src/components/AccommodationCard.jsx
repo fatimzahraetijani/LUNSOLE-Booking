@@ -3,22 +3,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import { MapPin, Star, Heart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-export const AccommodationCard = ({ property, showMap = false, isFavorited = false, onFavoriteToggle = () => {} }) => {
+export const AccommodationCard = ({ property, showMap = false, isFavorited = false, onFavoriteToggle = () => { } }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   const handleFavToggle = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (!user) {
       navigate('/login');
       return;
     }
-    
+
     onFavoriteToggle(property.id);
   };
-  
+
   return (
     <div className="accommodation-card" style={{ flexDirection: showMap ? 'row' : 'column' }}>
       <div className="card-img-wrapper" style={showMap ? { width: '200px', height: '100%', minHeight: '200px', flexShrink: 0 } : {}}>
@@ -35,22 +35,22 @@ export const AccommodationCard = ({ property, showMap = false, isFavorited = fal
           {property.type}
           {property.source === 'external' && ' • External'}
         </span>
-        
-        <button 
+
+        <button
           onClick={handleFavToggle}
-          style={{ 
-            position: 'absolute', 
-            top: '12px', 
-            right: '12px', 
-            background: 'rgba(18,19,26,0.6)', 
-            border: 'none', 
-            borderRadius: '50%', 
-            width: '32px', 
-            height: '32px', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            color: isFavorited ? '#ff4444' : '#fff', 
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            background: 'rgba(18,19,26,0.6)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '32px',
+            height: '32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: isFavorited ? '#ff4444' : '#fff',
             cursor: 'pointer',
             transition: 'var(--transition)'
           }}
@@ -90,15 +90,15 @@ export const AccommodationCard = ({ property, showMap = false, isFavorited = fal
         <p className="card-description" style={showMap ? { fontSize: '0.85rem', marginBottom: '16px' } : {}}>{property.description}</p>
         <div className="card-footer" style={showMap ? { borderTop: '1px solid var(--border-color)', paddingTop: '12px' } : {}}>
           <div className="card-price" style={showMap ? { fontSize: '0.9rem' } : {}}>
-          {property.min_price || property.price ? (
-            <><span>${Math.round(property.min_price || property.price)}</span> / night</>
-          ) : (
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Price unavailable</span>
-          )}
+            {property.min_price || property.price ? (
+              <><span>${Math.round(property.min_price || property.price)}</span> / night</>
+            ) : (
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Price unavailable</span>
+            )}
           </div>
-          <Link 
-            to={`/accommodations/${property.id}`} 
-            className="btn btn-outline" 
+          <Link
+            to={`/accommodations/${property.id}`}
+            className="btn btn-outline"
             style={showMap ? { padding: '6px 12px', fontSize: '0.8rem' } : { padding: '8px 16px', fontSize: '0.85rem' }}
           >
             {showMap ? 'View Suites' : 'View Details'}

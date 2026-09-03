@@ -29,8 +29,8 @@ export const Navbar = () => {
         {/* Menu links */}
         <ul className={`nav-menu ${isOpen ? 'open' : ''}`}>
           <li>
-            <NavLink 
-              to="/" 
+            <NavLink
+              to="/"
               className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
               onClick={() => setIsOpen(false)}
             >
@@ -38,8 +38,8 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink 
-              to="/search" 
+            <NavLink
+              to="/search"
               className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
               onClick={() => setIsOpen(false)}
             >
@@ -53,8 +53,8 @@ export const Navbar = () => {
           </li>
           {user && (
             <li>
-              <NavLink 
-                to="/favorites" 
+              <NavLink
+                to="/favorites"
                 className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
                 onClick={() => setIsOpen(false)}
               >

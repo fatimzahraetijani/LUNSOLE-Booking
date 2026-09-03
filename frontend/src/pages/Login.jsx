@@ -45,7 +45,7 @@ export const Login = () => {
           <h2>Welcome Back</h2>
           <p>Sign in to manage your premium bookings</p>
         </div>
-        
+
         <div className="auth-body">
           {error && (
             <div className="alert alert-error">
@@ -59,12 +59,12 @@ export const Login = () => {
               <label htmlFor="email">Email Address</label>
               <div style={{ position: 'relative' }}>
                 <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  placeholder="name@example.com" 
-                  className="form-control" 
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="name@example.com"
+                  className="form-control"
                   style={{ paddingLeft: '38px' }}
                   value={formData.email}
                   onChange={handleChange}
@@ -77,12 +77,12 @@ export const Login = () => {
               <label htmlFor="password">Password</label>
               <div style={{ position: 'relative' }}>
                 <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="password" 
-                  id="password" 
-                  name="password" 
-                  placeholder="••••••••" 
-                  className="form-control" 
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="••••••••"
+                  className="form-control"
                   style={{ paddingLeft: '38px' }}
                   value={formData.password}
                   onChange={handleChange}
@@ -91,9 +91,9 @@ export const Login = () => {
               </div>
             </div>
 
-            <button 
-              type="submit" 
-              className="btn btn-primary" 
+            <button
+              type="submit"
+              className="btn btn-primary"
               style={{ width: '100%', gap: '8px', height: '48px' }}
               disabled={loading}
             >
